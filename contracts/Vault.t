@@ -1,0 +1,21 @@
+faucet 0xA 100
+faucet 0xB 0
+deploy 0xA:0xC("0xB", 1000) "Vault" "contracts/Vault.sol"
+
+0xA:0xC.receive{value:50}()
+0xA:0xC.withdraw("0xZ", 20)
+assert 0xA this.balance==50
+assert 0xC this.balance==50
+assert 0xZ this.balance==0
+
+0xA:0xC.finalize()
+assert lastReverted
+
+block.number = 1001
+0xB:0xC.cancel()
+assert !lastReverted
+
+0xA:0xC.finalize()
+assert lastReverted
+
+assert 0xC this.balance==50

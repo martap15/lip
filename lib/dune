@@ -1,0 +1,9 @@
+(library
+ (name tinysolLib)
+ (libraries zarith))
+
+(menhir
+ (modules parser))
+
+(ocamllex lexer)
+
